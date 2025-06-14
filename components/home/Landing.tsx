@@ -9,9 +9,9 @@ export default function Landing() {
       style={{ backgroundImage: "url('/bg-landing.jpg')" }}
     >
       <div className="flex flex-col justify-center">
-        <h1 className="text-6xl font-bold mb-4">Lorem ipsum dolor sit.</h1>
+        <h1 className="text-6xl font-bold mb-4">Kerja sama dengan kami!</h1>
         <p className="text-2xl text-gray-700 mt-8">
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Repudiandae dignissimos ratione magnam numquam
+          FixIt. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Repudiandae dignissimos ratione magnam numquam
           necessitatibus, minima asperiores quod nam exercitationem quae?
         </p>
       </div>

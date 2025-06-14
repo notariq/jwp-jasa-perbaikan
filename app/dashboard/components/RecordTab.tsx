@@ -26,6 +26,7 @@ type Order = {
 export default function RecordTab() {
   const [records, setRecords] = useState<Order[]>([]);
   const [total, setTotal] = useState<number>(0);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -38,10 +39,13 @@ export default function RecordTab() {
 
       setRecords(selesaiOrders);
       setTotal(sum);
+      setLoading(false);
     };
 
     fetchData();
   }, []);
+
+  if (loading) return <p>Loading...</p>
 
   return (
     <div className="p-4">

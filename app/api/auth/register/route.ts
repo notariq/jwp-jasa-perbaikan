@@ -22,9 +22,8 @@ export async function POST(request: NextRequest) {
 
     const client = await clientPromise
     const db = client.db(process.env.MONGODB_DB)
-    const users = db.collection(process.env.USER_COLLECTION)
+    const users = db.collection(process.env.USER_COLLECTION as string)
 
-    // Check if user already exists
     const existingUser = await users.findOne({ email })
     if (existingUser) {
       return NextResponse.json(
@@ -33,7 +32,6 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Hash password and create user
     const hashedPassword = await bcrypt.hash(password, 12)
     
     await users.insertOne({

@@ -1,5 +1,3 @@
-'use server'
-
 import React from 'react'
 import Link from 'next/link';
 import {
@@ -13,7 +11,7 @@ import clientPromise from '@/lib/mongodb';
 export default async function LayananList() {
   const client = await clientPromise;
   const db = client.db("jasa_perbaikan_db");
-  const services = await db.collection("services_tb").find({}).toArray();
+  const services = await db.collection(process.env.SERVICE_COLLECTION as string || "services_tb").find({}).toArray();
 
   return (
     <>

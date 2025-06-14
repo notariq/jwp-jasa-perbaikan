@@ -11,6 +11,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { useEffect, useState } from 'react';
+import { Pencil } from 'lucide-react';
 
 type Props = {
   serviceId: string;
@@ -77,7 +78,9 @@ export default function UpdateServiceForm({ serviceId, onUpdate }: Props) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="bg-blue-500">Ubah</Button>
+        <Button className="bg-blue-500">
+          <Pencil size={18} />
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[400px]">
         <DialogHeader>

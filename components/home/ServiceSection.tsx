@@ -1,12 +1,5 @@
-'use server';
-
 import React from 'react';
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardContent,
-} from "@/components/ui/card";
+import {Card, CardHeader, CardTitle, CardContent} from "@/components/ui/card";
 import Link from "next/link";
 import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button'
@@ -14,8 +7,8 @@ import clientPromise from '@/lib/mongodb';
 
 export default async function LayananSection() {
   const client = await clientPromise;
-  const db = client.db("jasa_perbaikan_db");
-  const services = await db.collection("services_tb").find({}).limit(3).toArray();
+  const db = client.db(process.env.MONGODB_DB);
+  const services = await db.collection(process.env.SERVICE_COLLECTION as string).find({}).limit(3).toArray();
 
   return (
     <div id='layanan-section' className='h-full flex flex-col gap-6'>

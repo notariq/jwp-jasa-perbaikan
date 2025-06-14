@@ -33,9 +33,9 @@ export default function AuthForm() {
 
     if (res?.ok) {
       setOpen(false)
-      router.refresh() // if you're using app router
+      router.refresh()
     } else {
-      alert("Login failed")
+      alert("Login gagal")
     }
   }
 
@@ -50,7 +50,7 @@ export default function AuthForm() {
     setLoading(false)
 
     if (res.ok) {
-      alert("Registration successful. You can log in now.")
+      alert("Pendaftaran berhasil, silakan login")
     } else {
       const data = await res.json()
       alert(data.error || "Registration failed")

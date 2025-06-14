@@ -5,6 +5,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Button } from '@/components/ui/button';
 import UpdateServiceForm from './dialog/UpdateServiceForm';
 import AddServiceForm from './dialog/AddServiceForm';
+import { Trash2 } from 'lucide-react';
 
 type Service = {
   id: string;
@@ -36,7 +37,7 @@ export default function ServiceTab() {
     fetchServices();
   }, []);
 
-  if (loading) return <p>Loading services...</p>;
+  if (loading) return <p>Loading...</p>
 
   return (
     <div>
@@ -73,7 +74,7 @@ export default function ServiceTab() {
                       variant="destructive" 
                       onClick={() => handleDelete(service.id)}
                     >
-                      Hapus
+                      <Trash2 size={18} />
                     </Button>
                   </div>
                 </TableCell>

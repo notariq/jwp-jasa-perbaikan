@@ -2,20 +2,23 @@ import { NextResponse } from 'next/server';
 import clientPromise from '@/lib/mongodb';
 import { ObjectId } from 'mongodb';
 
+const ORDER_COLLECTION = process.env.ORDER_COLLECTION as string || 'orders_tb';
+const SERVICE_COLLECTION = process.env.SERVICE_COLLECTION as string || 'services_tb';
+
 export async function GET() {
   try {
     const client = await clientPromise;
     const db = client.db(process.env.MONGODB_DB);
 
     const orders = await db
-      .collection('orders_tb')
+      .collection(ORDER_COLLECTION)
       .find({})
       .sort({ created_at: -1 })
       .toArray();
 
     return NextResponse.json(orders);
   } catch (error) {
-    return NextResponse.json({ error: 'Failed to fetch orders' }, { status: 500 });
+    return NextResponse.json({ error: 'Failed to fetch orders', message: error }, { status: 500 });
   }
 }
 
@@ -36,10 +39,10 @@ export async function POST(req: Request) {
 
     const client = await clientPromise;
     const db = client.db(process.env.MONGODB_DB);
-    const service = await db.collection('services_tb').findOne({ _id: new ObjectId(serviceId) });
+    const service = await db.collection(SERVICE_COLLECTION).findOne({ _id: new ObjectId(serviceId) });
 
     if (!service) {
-      return NextResponse.json({ error: 'Service not found' }, { status: 404 });
+      return NextResponse.json({ error: 'Service not found',  }, { status: 404 });
     }
 
     const ratePerHour = service.rate_per_hour;
@@ -59,10 +62,10 @@ export async function POST(req: Request) {
       created_at: new Date(),
     };
 
-    const result = await db.collection('orders_tb').insertOne(order);
+    const result = await db.collection(ORDER_COLLECTION).insertOne(order);
 
     return NextResponse.json({ success: true, orderId: result.insertedId });
   } catch (error) {
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+    return NextResponse.json({ error: 'Internal Server Error', message: error }, { status: 500 });
   }
 }

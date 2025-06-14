@@ -4,11 +4,13 @@ import { writeFile } from 'fs/promises';
 import path from 'path';
 import { mkdir } from 'fs/promises';
 
+const SERVICE_COLLECTION = process.env.SERVICE_COLLECTION as string || 'services_tb';
+
 export async function GET() {
   const client = await clientPromise;
   const db = client.db(process.env.MONGODB_DB);
 
-  const services = await db.collection('services_tb').find({}).toArray();
+  const services = await db.collection(SERVICE_COLLECTION).find({}).toArray();
 
   const formatted = services.map(({ _id, service_name, description, rate_per_hour, image_src }) => ({
     id: _id.toString(),
@@ -45,7 +47,7 @@ export async function POST(req: Request) {
   const client = await clientPromise;
   const db = client.db(process.env.MONGODB_DB);
 
-  const result = await db.collection('services_tb').insertOne({
+  const result = await db.collection(SERVICE_COLLECTION).insertOne({
     service_name,
     description,
     rate_per_hour,

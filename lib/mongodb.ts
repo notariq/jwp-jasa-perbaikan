@@ -4,7 +4,7 @@ const uri = process.env.MONGODB_URI as string;
 const options: MongoClientOptions = {};
 
 if (!uri) {
-  throw new Error('Please define the MONGODB_URI environment variable in .env.local');
+  throw new Error('MONGODB_URI environment variable is not defined');
 }
 
 let client: MongoClient;

@@ -6,7 +6,7 @@ export interface UserType {
 }
 
 export interface ServiceType {
-  _id?: string;
+  _id: string;
   service_name: string;
   rate_per_hour: number;
   description: string;
@@ -23,5 +23,5 @@ export interface OrderType {
   note: string;
   estimation: string;
   status?: string;
-  service_name: string;
+  service_name?: string;
 };

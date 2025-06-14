@@ -5,22 +5,10 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 import { Trash2 } from 'lucide-react';
-
-type Order = {
-  _id: string;
-  service_id: string;
-  date: string;
-  hours: number;
-  phone: string;
-  address: string;
-  note: string;
-  estimation: string;
-  status?: string;
-  service_name: string;
-};
+import { OrderType } from '@/types/d';
 
 export default function OrderTab() {
-  const [orders, setOrders] = useState<Order[]>([]);
+  const [orders, setOrders] = useState<OrderType[]>([]);
   const [loading, setLoading] = useState(false);
 
   const fetchOrders = async () => {
@@ -52,9 +40,7 @@ export default function OrderTab() {
     fetchOrders();
   };
 
-  if (loading) {
-    return <div className="p-4">Loading...</div>;
-  }
+  if (loading) return <p>Loading...</p>
 
   return (
     <div className="p-4">
@@ -66,6 +52,7 @@ export default function OrderTab() {
                 <TableHead>Layanan</TableHead>
                 <TableHead>Telepon</TableHead>
                 <TableHead>Alamat</TableHead>
+                <TableHead>Catatan</TableHead>
                 <TableHead>Jam</TableHead>
                 <TableHead>Total</TableHead>
                 <TableHead>Status</TableHead>
@@ -79,6 +66,7 @@ export default function OrderTab() {
                   <TableCell>{order.service_name || order.service_id}</TableCell>
                   <TableCell>{order.phone}</TableCell>
                   <TableCell>{order.address}</TableCell>
+                  <TableCell>{order.note}</TableCell>
                   <TableCell>{order.hours}</TableCell>
                   <TableCell>{order.estimation}</TableCell>
                   <TableCell>

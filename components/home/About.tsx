@@ -28,11 +28,11 @@ export default function About() {
           <Card className="p-6 shadow-md flex items-center justify-between bg-white">
             <div className="text-center">
               <p className="text-sm text-gray-500">Jumlah Layanan Terselesaikan</p>
-              <h2 className="text-4xl font-bold text-green-600">NUM</h2>
+              <h2 className="text-4xl font-bold text-green-600">1261</h2>
             </div>
             <div className="text-center">
               <p className="text-sm text-gray-500">Tingkat Kepuasan</p>
-              <h2 className="text-4xl font-bold text-blue-600">NUM</h2>
+              <h2 className="text-4xl font-bold text-blue-600">100%</h2>
             </div>
           </Card>
           

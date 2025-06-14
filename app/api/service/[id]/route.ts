@@ -6,6 +6,7 @@ import path from 'path';
 import { mkdirSync, existsSync } from 'fs';
 
 const IMAGE_DIR = path.join(process.cwd(), 'public', 'uploads');
+const SERVICE_COLLECTION = process.env.SERVICE_COLLECTION as string || 'services_tb';
 
 async function deleteImage(filename: string) {
   const filePath = path.join(IMAGE_DIR, filename);
@@ -14,14 +15,16 @@ async function deleteImage(filename: string) {
     console.log(`Deleted: ${filePath}`);
   } catch (err) {
     console.warn(`Failed to delete image: ${filePath}`);
+    console.error(err);
   }
 }
 
-export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
-  const id = params.id;
+export async function POST(req: Request, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+
   const client = await clientPromise;
   const db = client.db(process.env.MONGODB_DB);
-  const collection = db.collection('services_tb');
+  const collection = db.collection(SERVICE_COLLECTION);
 
   const formData = await req.formData();
 
@@ -70,12 +73,13 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
   return NextResponse.json({ success: true });
 }
 
-export async function GET(req: Request, { params }: { params: { id: string } }) {
-    const id = params.id;
+export async function GET(req: Request, { params }: { params: Promise<{ id: string }> }) {
+    const { id } = await params;
+
     const client = await clientPromise;
     const db = client.db(process.env.MONGODB_DB);
 
-    const service = await db.collection('services_tb').findOne({ _id: new ObjectId(id) });
+    const service = await db.collection(SERVICE_COLLECTION).findOne({ _id: new ObjectId(id) });
 
     if (!service) {
         return NextResponse.json({ error: 'Service not found' }, { status: 404 });
@@ -92,24 +96,24 @@ export async function GET(req: Request, { params }: { params: { id: string } }) 
     return NextResponse.json(formatted);
 }
 
-export async function DELETE(req: Request, { params }: { params: { id: string } }) {
-  const id = params.id;
+export async function DELETE(_: Request, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  
   const client = await clientPromise;
   const db = client.db(process.env.MONGODB_DB);
 
-  const service = await db.collection('services_tb').findOne({ _id: new ObjectId(id) });
+  const service = await db.collection(SERVICE_COLLECTION).findOne({ _id: new ObjectId(id) });
 
   if (!service) {
     return NextResponse.json({ error: 'Service not found' }, { status: 404 });
   }
 
-  // Hapus gambar jika ada
   if (service.image_src && service.image_src.startsWith('/uploads/')) {
     const filename = service.image_src.replace('/uploads/', '');
     await deleteImage(filename);
   }
 
-  await db.collection('services_tb').deleteOne({ _id: new ObjectId(id) });
+  await db.collection(SERVICE_COLLECTION).deleteOne({ _id: new ObjectId(id) });
 
   return NextResponse.json({ success: true });
 }
